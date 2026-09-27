@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키위엔 영어회화 - 나만의 문장 만들기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #7942ed;
+            --light-purple: #905cf4;
+            --card-purple: #6a32df;
+            --bg-color: #f4f0ff;
+            --text-main: #333333;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--primary-purple);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(121, 66, 237, 0.3);
+            padding: 30px;
+            color: var(--white);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-bottom: 4px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        /* 유닛 중복 선택 박스 스타일 */
+        .select-box {
+            background: var(--card-purple);
+            padding: 18px 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .select-box .title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-height: 150px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .checkbox-label:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .checkbox-label input {
+            accent-color: var(--primary-purple);
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+
+        .quiz-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .quiz-card {
+            background: var(--card-purple);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-unit {
+            background: rgba(255, 255, 255, 0.35);
+            font-weight: 700;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #222;
+        }
+
+        button {
+            background: var(--white);
+            color: var(--primary-purple);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #f0ebff;
+        }
+
+        .result-box {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .result-box.correct {
+            background: rgba(46, 213, 115, 0.2);
+            color: #dfffef;
+            border: 1px solid #2ed573;
+        }
+
+        .result-box.incorrect {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ffe5e8;
+            border: 1px solid #ff4757;
+        }
+
+        .answer-reveal {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .no-selection {
+            text-align: center;
+            padding: 30px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 20px 15px; }
+            .input-group { flex-direction: column; }
+            button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <p># 세 번째 루틴</p>
+            <h1>나만의 문장 만들기</h1>
+            <p>원하는 유닛을 중복 선택하여 영작을 연습해보세요!</p>
+        </header>
+
+        <!-- 유닛 중복 선택 체크박스 영역 -->
+        <div class="select-box">
+            <span class="title">학습 유닛 중복 선택:</span>
+            <div class="checkbox-group" id="checkboxGroup">
+                <!-- 자바스크립트로 전체 유닛 체크박스가 동적 생성됩니다 -->
+            </div>
+        </div>
+
+        <!-- 퀴즈 목록 출력 영역 -->
+        <div id="quizList" class="quiz-list">
+            <!-- 동적 렌더링 -->
+        </div>
+    </div>
+
+    <script>
+        // 키위엔영어회화_2.txt 기반 전체 Unit 퀴즈 데이터베이스
+        const quizData = {
+            "01": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 집에 간다.", answer: "I go home." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 그를 안다.", answer: "I know him." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "나는 점심을 먹는다.", answer: "I eat lunch." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "너는 내일 일한다.", answer: "You work tomorrow." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "너는 커피를 마신다.", answer: "You drink coffee." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "너는 요가를 한다.", answer: "You do yoga." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리는 피자를 좋아한다.", answer: "We like pizza." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "우리는 TV를 본다.", answer: "We watch TV." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 영어를 말한다.", answer: "We speak English." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그들은 사진을 찍는다.", answer: "They take pictures." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그들은 캠핑하러 간다.", answer: "They go camping." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그들은 돈을 번다.", answer: "They make money." }
+            ],
+            "02": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 그녀를 안다.", answer: "I know her." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 요가를 한다.", answer: "I do yoga." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "나는 영화 볼 거다.", answer: "I will watch a movie." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "나는 오늘 운동할 수 있다.", answer: "I can work out today." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "너는 영어를 말 할 수 있다.", answer: "You can speak English." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 여기에 올 것이다.", answer: "He will come here." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리는 골프를 칠 것이다.", answer: "We will play golf." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "우리는 커피를 마셨다.", answer: "We drank coffee." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 쇼핑 갈 수 있다.", answer: "We can go shopping." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그들은 점심을 먹었다.", answer: "They ate lunch." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그들은 피자를 만든다.", answer: "They make pizza." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그들은 매년 여행한다.", answer: "They travel every year." }
+            ],
+            "03": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 TV를 보지 않아요.", answer: "I do not watch TV." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "저는 차를 가져오지 않았어요.", answer: "I did not bring my car." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "저는 스마트폰이 없어요.", answer: "I do not have a smartphone." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "당신은 이곳에 올 수 없어요.", answer: "You cannot come here." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그는 커피를 마시지 않을 거예요.", answer: "He will not drink coffee." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 오늘 일하지 않을 거예요.", answer: "He will not work today." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그녀는 거기에 가지 않았어요.", answer: "She did not go there." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그녀는 무서운 영화들을 보지 않을 거예요.", answer: "She will not watch scary movies." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 오늘 밤에 운동할 수 없어요.", answer: "We cannot work out tonight." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "우리는 영어를 할 수 없어요.", answer: "We cannot speak English." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그들은 어제 일을 하지 않았어요.", answer: "They did not work yesterday." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그들은 야채를 먹지 않아요.", answer: "They do not eat vegetables." }
+            ],
+            "04": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 넷플릭스로 영화를 봤다.", answer: "I watched a movie on Netflix." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 내 방을 청소했다.", answer: "I cleaned my room." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "나는 스마트폰을 가지고 있지 않다.", answer: "I don't have a smartphone." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "너는 영어를 할 수 있어.", answer: "You can speak English." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그는 서울에 가지 않을 것이다.", answer: "He will not go to Seoul." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 너를 도와줄 수 없어.", answer: "He can't help you." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그녀는 점심을 먹을 수 없다.", answer: "She can't eat lunch." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그녀는 여기 오지 않을 것이다.", answer: "She will not come here." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 일찍 일어나지 않았다.", answer: "We didn't wake up early." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "우리는 책들을 살 것이다.", answer: "We will buy books." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "우리는 커피를 마시지 않는다.", answer: "We don't drink coffee." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그들은 늦게 잔다.", answer: "They sleep late." }
+            ],
+            "05": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그는 집에서 점심을 먹을 거다.", answer: "He will eat lunch at home." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그들은 온종일 집에 있지 않을 거다.", answer: "They will not stay home all day long." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 주말마다 도서관에 간다.", answer: "We go to the library every weekend." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "너는 나랑 이 영화를 영화관에서 봤다.", answer: "You watched this movie with me at the theater." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "난 내일 KTX로 부산에 갈 거야.", answer: "I will go to Busan by KTX tomorrow." }
+            ],
+            "06": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "너 내일 일해?", answer: "Do you work tomorrow?" },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "너 버스 탔니?", answer: "Did you take the bus?" },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "너 오늘 밤 운동할 거니?", answer: "Will you exercise tonight?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "에어컨 좀 켜줄 수 있니?", answer: "Can you turn on the A/C?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "너 지갑 가지고 있어?", answer: "Do you have your wallet?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그녀는 (그녀의) 휴대폰을 찾았나요?", answer: "Did she find her phone?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그가 제 말을 들을까요?", answer: "Will he listen to me?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "우리 이번 주말에 소풍 갈 수 있나요?", answer: "Can we go on a picnic this weekend?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "당신은 동물을 좋아하시나요?", answer: "Do you like animals?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "너 아침 먹었니?", answer: "Did you have breakfast?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 오늘 영어 공부를 할 건가요?", answer: "Will she study English today?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "우리 산책하러 갈 수 있을까?", answer: "Can we go for a walk?" }
+            ],
+            "07": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "너 어젯밤에 어디 갔었어?", answer: "Where did you go last night?" },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "너는 (너의) 옷들을 어디에서 사니?", answer: "Where do you buy your clothes?" },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "당신은 언제 강아지를 산책시키나요?", answer: "When do you walk your dog?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그녀는 언제 그것을 끝냈나요?", answer: "When did she finish it?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "네가 그걸 어떻게 알아?", answer: "How do you know that?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "어떻게 도와드릴까요?", answer: "How can I help you?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "저녁으로 뭐 드셨어요?", answer: "What did you eat for dinner?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "너 오늘 밤에 뭐 할 거야?", answer: "What will you do tonight?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리 이번 주말에 누구 만나?", answer: "Who will we meet this weekend?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "너 어제 누구랑 놀았니?", answer: "Who did you hang out with yesterday?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그들은 왜 영어를 공부하나요?", answer: "Why do they study English?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "너 어젯밤 나한테 왜 전화했어?", answer: "Why did you call me last night?" }
+            ],
+            "08": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "우리는 행복하다.", answer: "We are happy." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 오늘 피곤하다.", answer: "I am tired today." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그들은 배고프다.", answer: "They are hungry." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그것은 아름답다.", answer: "It is beautiful." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 키가 크다.", answer: "She is tall." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "이 차는 비싸다.", answer: "This car is expensive." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "내 방은 오늘 깨끗하다.", answer: "My room is clean today." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "우리는 내일 바빠요.", answer: "We are busy tomorrow." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그는 모두에게 착해요.", answer: "He is nice to everyone." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그들은 화가 났어요.", answer: "They are upset." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그 식당은 커요.", answer: "The restaurant is big." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "오늘은 날씨가 매우 추워요.", answer: "It is very cold today." }
+            ],
+            "09": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그녀는 행복하지 않다.", answer: "She is not happy." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 졸리지 않다.", answer: "I am not sleepy." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "이 영화는 웃기지 않는다.", answer: "This movie is not funny." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그는 연기에 관심이 없다.", answer: "He is not interested in acting." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "내 형들은 게으르지 않다.", answer: "My brothers are lazy." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "이 인터뷰는 나에게 중요하지 않다.", answer: "This interview is not important to me." }
+            ],
+            "10": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그들은 신났니?", answer: "Are they excited?" },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "밖은 더운가요?", answer: "Is it hot outside?" },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 괜찮나요?", answer: "Is he okay?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "나 또 늦었어?", answer: "Am I late again?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "우리 이제 준비됐나요?", answer: "Are we ready now?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "제가 맞나요?", answer: "Am I right?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그녀는 오늘 아픈가요?", answer: "Is she sick today?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 게임을 잘하니?", answer: "Is he good at games?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그의 아이디어들은 창의적인가요?", answer: "Are his ideas creative?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "너의 컴퓨터는 비싸니?", answer: "Is your computer expensive?" }
+            ],
+            "11": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "네, 저는 지루해요.", answer: "Yes, I am bored." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "네, 그녀는 건강해요.", answer: "Yes, she is healthy." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "아니요, 오늘 춥지 않아요.", answer: "No, it is not cold today." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "네, 그들은 준비가 됐어요.", answer: "Yes, they are ready." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "아니요, 늦지 않으셨어요.", answer: "No, you are not late." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "네, 이 사진은 제게 중요해요.", answer: "Yes, this picture is important to me." }
+            ],
+            "12": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나 부엌에 있어.", answer: "I am in the kitchen." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 직장에 있어요.", answer: "She is at work." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그들은 공항에 있어요.", answer: "They are at the airport." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "너의 키는 테이블 위에 있어.", answer: "Your key is on the table." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그거 차에 없어.", answer: "It is not in the car." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그녀는 방에 없다.", answer: "She is not in her room." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리는 아직 거기에 있지 않아요.", answer: "We are not there yet." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "네 휴대폰 여기 없어.", answer: "Your phone is not here." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "너 사무실 안에 있니?", answer: "Are you in the office?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 병원에 있나요?", answer: "Is he at the hospital?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그들은 한국에 있나요?", answer: "Are they in Korea?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "거기 누구 있나요?", answer: "Who is there?" }
+            ],
+            "13": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "날씨가 어떤가요?", answer: "How is the weather?" },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "거기 음식은 어때요?", answer: "How is the food there?" },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "당신의 직업은 무엇인가요?", answer: "What is your occupation?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "당신의 휴대폰은 어디에 있나요?", answer: "Where is your phone?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 누구랑 있나요?", answer: "Who is she with?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "오늘 왜 이렇게 더운 건가요?", answer: "Why is it so hot today?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그 영화 어때요?", answer: "How is the movie?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "당신은 그녀가 왜 무서운가요?", answer: "Why are you scared of her?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그들은 왜 음악에 관심이 있나요?", answer: "Why are they interested in music?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "당신의 생일은 언제인가요?", answer: "When is your birthday?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "마감일이 언제죠?", answer: "When is it due?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그 식당은 어디에 있나요?", answer: "Where is the restaurant located?" }
+            ],
+            "14": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그들은 운이 좋았다.", answer: "They were lucky." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그것은 공평하지 않았어요.", answer: "It was not fair." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 웃겼니?", answer: "Was he funny?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "이것은 복잡했다.", answer: "This was complicated." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "너 걱정됐니?", answer: "Were you worried?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "음식은 맛있지 않았어요.", answer: "The food was not delicious." }
+            ],
+            "15": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그 음식은 맛있을 거예요.", answer: "The food will be delicious." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 당신을 자랑스러워할 거예요.", answer: "She will be proud of you." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 오늘 뉴욕에 있지 않을 거예요.", answer: "We will not be in New York today." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그 소포는 거기에 있을 거예요.", answer: "The package will be there." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀가 늦을까요?", answer: "Will she be late?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 12시 이후에 시간이 가능할 겁니다.", answer: "He will be available after 12." }
+            ],
+            "16": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그녀는 좋은 친구가 될 수 있어요.", answer: "She can be a good friend." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리는 부자가 될 수 있다.", answer: "We can be rich." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그것이 사실일 수 없다.", answer: "It cannot be true." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그것은 어려울 수 있다.", answer: "It can be difficult." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "너 확신할 수 있니?", answer: "Can you be sure?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그것은 위험할 수 있어.", answer: "It can be dangerous." }
+            ],
+            "17": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그는 요즘 집에서 일해.", answer: "He works from home these days." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 매일 커피를 마셔.", answer: "She drinks coffee every day." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그녀는 밤에 드라마를 본다.", answer: "She watches dramas at night." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그는 온라인으로 영어를 배운다.", answer: "He learns English online." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 설거지 한다.", answer: "She does the dishes." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "John은 혼자 여행한다.", answer: "John travels by himself." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그녀는 더운 날씨를 좋아하지 않아요.", answer: "She does not like hot weather." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 방을 청소하지 않아요.", answer: "He does not clean his room." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "나의 아버지는 더 이상 일을 하시지 않아요.", answer: "My dad does not work anymore." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "너의 어머니는 꽃을 좋아하시니?", answer: "Does your mom like flowers?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그는 종종 거기에 가니?", answer: "Does he go there often?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "영화 언제 시작해?", answer: "When does the movie start?" }
+            ],
+            "18": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "내가 너의 지갑을 찾는다면 문자 할게.", answer: "I will text you if I find your wallet." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "네가 그러면 그녀는 화가 날 거야.", answer: "She will be mad if you do that." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "(네가) 열심히 일하면 성공할 거야.", answer: "You will succeed if you work hard." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "서두르지 않으면 넌 버스를 놓칠 거야.", answer: "You will miss the bus if you don't hurry." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "원하신다면 제가 태워 드릴 수 있어요.", answer: "I can give you a ride if you want." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "아프시면 집에 가서 쉬어도 괜찮아요.", answer: "You can go home and rest if you are sick." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "만약 그녀가 부탁한다면 당신이 그녀를 집에 데려다 줄 수 있나요?", answer: "If she asks, can you take her home?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "내일 비가 오면 우리는 그곳에 갈 수 없어.", answer: "If it rains tomorrow, we cannot go there." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "만약 네가 오늘 바쁘면 나는 너를 내일 만나도 돼.", answer: "If you are busy today, I can meet you tomorrow." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "네가 만약 지하철을 타지 않으면 어떻게 직장에 갈 수 있어?", answer: "If you don't take the subway, how can you go to work?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "네가 사실을 말해 주지 않는다면 그녀는 실망할 거야.", answer: "If you don't tell her the truth, she will be disappointed." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "만약 그가 또다시 지각한다면 그에게 경고해 줄 수 있나요?", answer: "If he is late to work again, can you warn him?" }
+            ],
+            "20": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "우리는 오늘 골프 치고 싶어요.", answer: "We want to play golf today." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그는 가족과 시간을 보내고 싶어 해요.", answer: "He wants to spend time with his family." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그녀는 쇼핑하러 가고 싶어 해요.", answer: "She wants to go shopping." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "우리는 영어를 유창하게 말하고 싶어요.", answer: "We want to speak English fluently." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "저는 좀 쉬고 싶어요.", answer: "I want to get some rest." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "저는 내일 일하고 싶지 않아요.", answer: "I don't want to work tomorrow." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "저는 그것에 대해 얘기하고 싶지 않아요.", answer: "I don't want to talk about it." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "저는 여기에 있고 싶지 않아요.", answer: "I don't want to be here." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "너 차 마시고 싶니?", answer: "Do you want to drink some tea?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그녀는 외식하고 싶어 하나요?", answer: "Does she want to eat out?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "당신은 파스타를 먹고 싶나요?", answer: "Do you want to eat pasta?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "당신은 무슨 파스타를 먹고 싶나요?", answer: "What pasta do you want to eat?" }
+            ],
+            "21": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그녀는 외국에서 공부하고 싶었어요.", answer: "She wanted to study abroad." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리는 그녀를 만나고 싶었어요.", answer: "We wanted to meet her." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 캠핑 하러 가고 싶었어요.", answer: "He wanted to go camping." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "제 부모님은 저와 시간을 보내고 싶어 하셨어요.", answer: "My parents wanted to spend time with me." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "나는 그것에 대해 생각하고 싶지 않았어요.", answer: "I didn't want to think about it." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 매운 음식을 먹고 싶지 않았어요.", answer: "He didn't want to eat spicy food." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "제 친구들은 술을 마시고 싶지 않았어요.", answer: "My friends didn't want to drink." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "저희는 이사하고 싶지 않았어요.", answer: "We didn't want to move." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그는 시간을 낭비하고 싶지 않았어요.", answer: "He didn't want to waste his time." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "저를 찾으셨나요?", answer: "Did you want to see me?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 선생님이 되고 싶었나요?", answer: "Did she want to become a teacher?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그녀는 왜 선생님이 되고 싶었나요?", answer: "Why did she want to become a teacher?" }
+            ],
+            "22": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "너는 점심으로 무엇을 먹고 싶니? / 나는 한식을 먹고 싶어.", answer: "What do you want to eat for lunch? / I want to eat Korean food." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 이번에 어디를 여행하고 싶어 했나요? / 그녀는 유럽 여행을 하고 싶어 했어요.", answer: "Where did she want to travel this time? / She wanted to travel to Europe." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "너는 왜 영어를 배우고 싶니? / 왜냐하면 나는 미국에서 살고 싶거든.", answer: "Why do you want to learn English? / Because I want to live in America." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "누구랑 대화하고 싶으시죠? / 저는 이곳 사장님과 대화하고 싶습니다.", answer: "Who do you want to speak to? / I want to speak to the boss here." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "어떻게 계산하시고 싶으신가요? / 저는 신용카드로 결제하고 싶습니다.", answer: "How do you want to pay? / I want to pay it with my credit card." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그들은 오늘 무엇을 하고 싶어 했었나요? / 그들은 서울에 가고 싶어 했어요.", answer: "What did they want to do today? / They wanted to go to Seoul." }
+            ],
+            "23": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 친구들과 어울리는 것을 좋아해요.", answer: "I like to hang out with my friends." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그는 음악 듣는 것을 좋아해요.", answer: "He likes to listen to music." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "저는 지금 그와 얘기할 필요가 있어요.", answer: "I need to talk to him now." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그녀는 다음 주에 서울에 갈 필요가 있어요.", answer: "She needs to go to Seoul next week." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "사람들은 그것에 대해서 알아야 할 필요가 있어요.", answer: "People need to know about it." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 치과에 갈 필요가 있어요.", answer: "He needs to go to the dentist." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그는 야채 먹는 것을 좋아하지 않아요.", answer: "He does not like to eat vegetables." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "저는 줄 서서 기다리는 것을 좋아하지 않아요.", answer: "I don't like to wait in line." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "당신은 서두를 필요 없습니다.", answer: "You don't need to hurry." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 늦잠 자는 것을 좋아하나요?", answer: "Does he like to sleep in?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "당신은 내일 일찍 일어날 필요가 있나요?", answer: "Do you need to get up early tomorrow?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "당신은 내일 왜 일찍 일어날 필요가 있나요?", answer: "Why do you need to get up early tomorrow?" }
+            ],
+            "24": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 네가 말해주길 원해.", answer: "I want you to tell me." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 그녀가 그를 만나길 원해.", answer: "I want her to meet him." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 네가 이 음식을 먹어보길 원해.", answer: "We want you to try this food." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "나는 네가 시간 낭비하는 것을 원하지 않아.", answer: "I don't want you to waste your time." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "저희는 당신이 늦게 일하는 것을 원하지 않아요.", answer: "We don't want you to work late." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "제 아버지는 제가 지금 새 차를 사는 것을 원하지 않아요.", answer: "My dad doesn't want me to get a new car now." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "당신의 의사는 당신이 운동하기를 원하나요?", answer: "Does your doctor want you to exercise?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "오늘 밤 당신이 우리를 도와주는 것이 필요해요.", answer: "We need you to help us tonight." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "나는 네가 조용해 주는 것이 필요해", answer: "I need you to be quiet." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "나는 네가 내 월세를 내주는 것이 필요하지 않아.", answer: "I don't need you to pay for my rent." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 제가 전화해 주는 것이 필요한가요?", answer: "Does she need me to call her?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그녀는 제가 언제 전화해 주는 것이 필요한가요?", answer: "When does she need me to call her?" }
+            ],
+            "25": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "2시간 30분 걸립니다.", answer: "It takes 2 hours and 30 minutes." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "5시간 걸렸어요.", answer: "It took 5 hours." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "일주일 걸릴 거예요.", answer: "It will take a week." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "30분 안 걸려요.", answer: "It doesn't take 30 minutes." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "3시간이 안 걸렸어요.", answer: "It didn't take 3 hours." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 그 프로젝트를 끝내는 데 5일이 걸렸다.", answer: "It took him 5 days to finish the project." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "비행기로 5시간 걸려요.", answer: "It takes 5 hours by plane." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "오래 걸리나요?", answer: "Does it take a long time?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "거기 가려면 얼마나 걸리죠?", answer: "How long does it take to get there?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "거기까지 가는 데 40분이 걸려요.", answer: "It takes 40 minutes to get there." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "LA에서 뉴욕까지 얼마나 걸렸어요?", answer: "How long did it take from L.A. to New York?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "LA에서 뉴욕까지 5시간 걸렸어요.", answer: "It took 5 hours from L.A. to New York." }
+            ],
+            "26": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그가 언제 올지 아시나요?", answer: "Do you know when he will come?" },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나갈 때 문 닫아줘.", answer: "Close the door when you leave." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "시간 있을 때 전화해 줄 수 있어?", answer: "Can you call me when you have time?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그들은 젊었을 때 결혼했다.", answer: "They got married when they were young." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "내가 집에 도착하면 너에게 전화할게.", answer: "I will call you back when I get home." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그 소식을 들었을 때 나는 정말 놀랐어.", answer: "I was very surprised when I heard the news." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리 내일 만나면 뭐 먹을래?", answer: "What do you want to eat when we meet tomorrow?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "운전할 때는 조심할 필요가 있어.", answer: "You need to be careful when you drive a car." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "네가 여행할 때 내가 너희 강아지를 돌봐줄게.", answer: "I will look after your dog when you travel." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 날 봤을 때 손을 흔들어 줬다.", answer: "He waved when he saw me." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그가 잘 때는 어떤 것도 그를 깨울 수 없다.", answer: "When he sleeps, nothing can wake him up." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그들은 영화를 볼 때 팝콘을 먹어요.", answer: "When they watch movies, they eat popcorn." }
+            ],
+            "27": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나 내일 하루 휴가 낼 거야.", answer: "I am going to take a day off tomorrow." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리는 오늘 밤 나가지 않을 거예요.", answer: "We are not going to go out tonight." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그들은 다음 달에 은퇴할 거예요.", answer: "They are going to retire next month." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "내일은 비가 올 거야.", answer: "It is going to rain tomorrow." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "나는 저녁 식사 후 아무것도 먹지 않을 거야.", answer: "I am not going to eat anything after dinner." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "넌 이것을(이 말을) 믿지 않을 거야.", answer: "You are not going to believe this." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리는 늦지 않을 거예요.", answer: "We are not going to be late." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그런 일은 생기지 않을 거예요.", answer: "It is not going to happen." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "너는 직장을 구할 거니?", answer: "Are you going to look for a job?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "우리는 어디로 캠핑하러 갈 건가요?", answer: "Where are we going to go camping?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 우리와 함께 할 건가요?", answer: "Is she going to join us?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "너는 언제 그녀와 결혼할 거야?", answer: "When are you going to marry her?" }
+            ],
+            "28": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 그에게 전화할 거였다.", answer: "I was going to call him." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 카페에서 브런치를 먹을 거였다.", answer: "She was going to eat brunch at a cafe." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 저녁으로 피자를 만들 거였다.", answer: "We were going to make pizza for dinner." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그들은 또다시 집을 페인트칠할 거였다.", answer: "They were going to paint the house again." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "오늘은 눈이 오지 않을 거였어요.", answer: "It wasn't going to snow today." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 너를 기다려주지 않을 거였어.", answer: "He was not going to wait for you." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "저는 새 휴대폰을 사지 않을 거였어요.", answer: "I wasn't going to buy a new phone." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "우리는 그를 용서하지 않을 거였어요.", answer: "We were not going to forgive him." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그들은 우리를 파티에 초대할 거였나요?", answer: "Were they going to invite us to their party?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "너는 그것을 나에게 말할 거였니?", answer: "Were you going to tell me about it?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 누구와 식당을 개업할 거였나요?", answer: "Who was she going to open a restaurant with?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "너는 이번에 어디로 여행을 갈 거였니?", answer: "Where were you going to travel this time?" }
+            ],
+            "29": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 이제 차를 운전하는 게 가능해요.", answer: "I am able to drive a car now." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리는 지금 당신을 태우러 갈 수 있어요.", answer: "We are able to pick you up now." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "저는 한국어와 영어를 할 수 있어요.", answer: "I am able to speak Korean and English." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그들은 내일 일하는 게 가능해요.", answer: "They are able to work tomorrow." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "우리 금요일에 만날 수 있나요?", answer: "Are we able to meet on Friday?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "당신은 이 문제를 풀 수 있나요?", answer: "Are you able to solve this problem?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그는 저희를 도와줄 수 있나요?", answer: "Is he able to help us?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 언제 저희를 도와줄 수 있나요?", answer: "When is he able to help us?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그녀는 오늘 저희와 함께 할 수 없어요.", answer: "She is not able to be with us today." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 수영하는 게 가능하지 않아요.", answer: "He is not able to swim." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "저는 더 이상 신용카드를 사용할 수 없어요.", answer: "I am not able to use my credit card anymore." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "우리는 그 질문에 대답할 수 없습니다.", answer: "We are not able to answer the question." }
+            ],
+            "30": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 그것을 해낼 수 있었어요.", answer: "I was able to pull it off." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 새로운 직업을 구할 수 있었어요.", answer: "She was able to get a new job." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 그들을 설득할 수 있었어요.", answer: "We were able to convince them." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그는 어젯밤에 잠을 잘 잘 수 없었다.", answer: "He was not able to sleep well last night." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "나는 그곳에 차를 주차할 수 없었다.", answer: "I was not able to park my car there." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그녀는 일을 일찍 끝내는 것이 가능했나요?", answer: "Was she able to finish her work early?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "너는 제시간에 도착할 수 있었니?", answer: "Were you able to arrive on time?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "나는 이번 달에 돈을 더 벌 수 있었어요.", answer: "I was able to make more money this month." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 그들과 연락하고 지낼 수 있었어요.", answer: "We were able to keep in touch with them." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 5분 안에 준비할 수 있을 거예요.", answer: "He will be able to get ready in 5 minutes." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "퇴근 후 저를 태워다 주실 수 있나요?", answer: "Will you be able to give me a ride after work?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "제가 언제 환불받을 수 있을까요?", answer: "When will I be able to get a refund?" }
+            ],
+            "31": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 운동 후에 샤워해요.", answer: "I take a shower after I work out." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 대학 졸업 후 취직했어요.", answer: "She got a job after she graduated from college." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "퇴근 후 같이 저녁 드실래요?", answer: "Do you want to have dinner together after work?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그는 식사를 다 하고 설거지를 할 거예요.", answer: "He will do the dishes after he finishes his meal." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "나는 친구들이 떠나면 청소기를 돌릴 거야.", answer: "I am going to vacuum my house after my friends leave." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "영화 끝나고 뭐하고 싶어?", answer: "What do you want to do after the movie?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그는 당신이 전화하기 전에 사무실을 떠났어요.", answer: "He left the office before you called." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "저는 그녀가 집에 오기 전에 잠들었어요.", answer: "I fell asleep before she came home." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리 여행 전에 무엇을 사야 할까?", answer: "What do we need to buy before the trip?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "네가 여기 오기 전에 여분의 재킷을 가져다줄 수 있니?", answer: "Can you bring me an extra jacket before you come here?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "저는 잠자러 가기 전에 TV 끄는 것을 깜빡했어요.", answer: "I forgot to turn off the TV before I went to bed." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "저는 면접 전에 긴장이 돼요.", answer: "I get nervous before an interview." }
+            ],
+            "32": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 내일 일찍 일어나야 해요.", answer: "I have to get up early tomorrow." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "너는 너 자신을 믿어야 해.", answer: "You have to believe in yourself." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그들은 잠시 사무실에 들러야 해요.", answer: "They have to stop by the office." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그녀는 식물들에 물을 줘야 해요.", answer: "She has to water her plants." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "우리는 다이어트를 해야 해요.", answer: "We have to go on a diet." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "저를 기다리지 않으셔도 됩니다.", answer: "You don't have to wait for me." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그는 오늘 일하러 가지 않아도 됩니다.", answer: "He does not have to go to work today." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "당신은 그 질문에 대답하지 않아도 됩니다.", answer: "You don't have to answer that question." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "사람들은 더 이상 지갑을 가지고 다니지 않아도 돼요.", answer: "People don't have to carry their wallets anymore." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "저희는 직장에서 유니폼을 입어야 하나요?", answer: "Do we have to wear uniforms at work?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "너는 왜 이것을 사야 하니?", answer: "Why do you have to buy this?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "제가 왜 그것을 해야 하죠?", answer: "Why do I have to do that?" }
+            ],
+            "33": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 그와 얘기해야 했어요.", answer: "I had to talk to him." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리는 그 질문을 해야 했어요.", answer: "We had to ask that question." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 멈춰야만 했다.", answer: "He had to stop." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "저는 그곳에 있어야만 했다.", answer: "I had to be there." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "우리는 곧 돌아와야 했어요.", answer: "We had to get back soon." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그녀는 최대한 빨리 그곳에 도착해야 했어요.", answer: "She had to get there as soon as possible." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "너는 그걸 해야만 했니?", answer: "Did you have to do that?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그녀는 그곳에 가야만 했나요?", answer: "Did she have to go there?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그는 누구와 출장을 가야만 했나요?", answer: "Who did he have to go on a business trip with?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 오늘 버스를 타지 않아도 됐어요.", answer: "He did not have to take the bus today." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "저는 그것을 그녀에게 설명하지 않아도 됐어요.", answer: "I didn't have to explain it to her." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그녀는 그 말을 해야 했나요?", answer: "Did she have to say that?" }
+            ],
+            "34": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 오늘 집에 있는 게 좋겠어.", answer: "I should stay home today." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "너 자야 할 것 같아.", answer: "You should sleep." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 집에 가서 쉬어야 해요.", answer: "He should go home and rest." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "너는 그녀의 말을 들어야 해.", answer: "You should listen to her." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그들은 야채를 더 먹어야 해요.", answer: "They should eat more vegetables." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "우리는 12시까지 거기에 가야 해요.", answer: "We should be there by 12 p.m." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리는 만약을 위해서 식당에 먼저 전화해 보는 게 좋겠어요.", answer: "We should call the restaurant first just in case." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그녀는 돈을 너무 많이 쓰면 안 된다.", answer: "She should not spend too much money." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 밤늦게 음식을 먹으면 안 돼.", answer: "We shouldn't eat late at night." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "이곳에 계시면 안 됩니다.", answer: "You shouldn't be here." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "무거운 것을 들면 안 돼요.", answer: "You should not lift heavy weights." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그들은 그것을 미루면 안 된다.", answer: "They shouldn't put it off." }
+            ],
+            "35": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "제가 거기에 가는 게 좋을까요?", answer: "Should I go there?" },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리가 그에게 한 번 더 기회를 줘야 할까요?", answer: "Should we give him one more chance?" },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그가 직업을 바꿔야 할까요?", answer: "Should he change his career?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "우리가 새로운 냉장고를 사야 할까?", answer: "Should we buy a new refrigerator?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "제가 예약을 먼저 해야 할까요?", answer: "Should I make an appointment first?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "제가 언제 다시 전화를 드려야 할까요?", answer: "When should I call you back?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리 점심 먹으러 어디로 가는 게 좋을까?", answer: "Where should we go for lunch?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "나 뭐 먹을까?", answer: "What should I eat?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리 오늘 밤에 뭐 할까?", answer: "What should we do tonight?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "제가 누구한테 물어봐야 하나요?", answer: "Who should I ask?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "저희 언제 만나는 게 좋을까요?", answer: "When should we meet?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "제가 왜 그것을 해야 하죠?", answer: "Why should I do that?" }
+            ],
+            "36": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 시간이 더 필요할지도 몰라요.", answer: "I might need more time." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 너의 도움이 필요할지도 몰라.", answer: "She might need your help." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "저는 그곳에 가지 않을지도 몰라요.", answer: "I might not go there." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그녀는 그것을 좋아할지도 몰라요.", answer: "She might like it." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "우리는 뭔가 먹을 것을 살지도 몰라요.", answer: "We might get something to eat." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "내가 몇 분 늦을지도 몰라.", answer: "I might be a few minutes late." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그들은 오늘 밤 집에 일찍 오지도 몰라요.", answer: "They might come home early tonight." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 더 이상 그곳에서 일하지 않을지도 몰라요.", answer: "He might not work there anymore." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그녀는 지금 전화를 받지 않을지도 몰라요.", answer: "She might not answer the phone now." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그들은 오래 걸릴지도 몰라요.", answer: "They might take a long time." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그가 그것에 관심이 있을지도 몰라요.", answer: "He might be interested in it." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그것은 사실일지도 몰라요.", answer: "It might be true." }
+            ],
+            "37": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "비록 비쌌지만 그 음식은 맛있었다.", answer: "The food was good, although it was expensive." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그는 키가 작지만 높게 점프할 수 있다.", answer: "He can jump high, although he is short." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "비록 비가 내렸지만 콘서트에는 많은 사람들이 있었다.", answer: "Although it rained, there were many people at the concert." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "비록 그는 여러 번 실패했지만 포기하지 않았다.", answer: "He did not give up although he failed many times." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 공부를 열심히 하지 않았지만 시험을 통과했다.", answer: "She passed the test, although she didn't study hard." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "저는 차가 있지만 제 자전거로 출근하는 걸 좋아해요.", answer: "Although I have a car, I like to ride my bicycles to work." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "나는 자주 그와 의견이 다르지만 그를 존중한다.", answer: "I respect him, although I often disagree with him." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "비록 바빴지만 우리는 행복했다.", answer: "Even though we were busy, we were happy." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그들은 쌍둥이지만 닮지 않았다.", answer: "Even though they are twins, they don't look alike." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "나는 피곤하지만 자고 싶지 않다.", answer: "I don't want to sleep, even though I am tired." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그들은 많은 돈이 있지만 행복하지 않다.", answer: "Even though they have a lot of money, they are not happy." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그녀는 일을 많이 하지만 스트레스를 받지 않는다.", answer: "She doesn't get stressed out even though she works a lot." }
+            ],
+            "38": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 샌드위치를 먹고 있어요.", answer: "I am eating a sandwich." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 그녀의 엄마와 얘기하고 있어요.", answer: "She is talking to her mom." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 그의 차 키를 찾는 중이에요.", answer: "He is looking for his car key." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "우리는 영어를 배우려고 노력하는 중이에요.", answer: "We are trying to learn English." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 친구들과 지금 브런치를 먹고 있어요.", answer: "She is having brunch with her friends now." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "너 내 말 듣고 있어?", answer: "Are you listening to me?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그는 지금 머리를 자르고 있나요?", answer: "Is he getting a haircut?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그들은 지금 제주도에 살고 있나요?", answer: "Are they living in Jeju Island now?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "당신의 남편은 해외에서 근무하고 있나요?", answer: "Is your husband working overseas?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "너 지금 무슨 책 읽고 있어?", answer: "What book are you reading now?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "나 지금 아무것도 하고 있지 않아.", answer: "I am not doing anything right now." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "어떻게 지내고 있어?", answer: "How are you doing?" }
+            ],
+            "39": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 낮잠을 자고 있었어.", answer: "I was taking a nap." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그는 빨래하는 중이었어.", answer: "He was doing the laundry." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 너에 대해 얘기하는 중이었어.", answer: "We were talking about you." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "내가 집에 도착했을 때 그들은 TV를 보고 있었어요.", answer: "They were watching TV when I got home." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 안전벨트를 하고 있었나요?", answer: "Was she wearing a seat belt?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "너 아침 먹는 중이었니?", answer: "Were you having breakfast?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그들은 좋은 시간을 보내는 중이었나요?", answer: "Were they having a good time?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "너 어디 가는 중이었니?", answer: "Where were you going?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "너 공원에서 뭐 하고 있었어?", answer: "What were you doing at the park?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 아무것도 하고 있지 않았어요.", answer: "He wasn't doing anything." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 어떻게 지내고 있었나요?", answer: "How was she doing?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "너 무슨 생각 하고 있었던 거야?", answer: "What were you thinking?" }
+            ],
+            "40": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나 내년에 결혼해.", answer: "I am getting married next year." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나 이번 주말에 세차할 거야.", answer: "I am washing my car this weekend." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그녀는 다음 주에 부모님을 뵈러 갈 거예요.", answer: "She is visiting her parents next week." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "우리는 다음 달에 출장을 갈 거예요.", answer: "We are going on a business trip next month." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "오늘은 누가 우리를 데리러 올 건가요?", answer: "Who is picking us up today?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "너 오늘 밤에 뭐 할 거야?", answer: "What are you doing tonight?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "너 서울로 이사 갈 거니?", answer: "Are you moving to Seoul?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 오늘 오지 않을 거예요.", answer: "He is not coming today." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "오늘 밤은 우리 외식하지 않을 거야.", answer: "We are not eating out tonight." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 이번 주말에 술을 마시지 않을 거예요.", answer: "He is not drinking this weekend." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "우리는 더 이상 이 호텔에 머물지 않을 거예요.", answer: "We are not staying at this hotel anymore." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "저는 그곳에 다시 가지 않을 거예요.", answer: "I am not going there again." }
+            ],
+            "41": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 12시에 케빈을 만나기로 되어 있어.", answer: "I am supposed to meet Kevin at noon." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "브라이언은 원래 직장에 있어야 해.", answer: "Brian is supposed to be at work." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "너 원래 이거 하면 안 되는 거였어.", answer: "You were not supposed to do this." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "원래는 이번 주에 날씨가 좋아야 하는데.", answer: "The weather is supposed to be nice this week." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 원래 준비되어 있어야 했어요.", answer: "She was supposed to be ready." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그가 원래 저희와 함께하기로 되어 있었나요?", answer: "Was he supposed to join us?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "저희가 원래 이 상황에서 어떻게 해야 하죠?", answer: "What are we supposed to do in this situation?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "무슨 뜻으로 하신 말씀이죠?", answer: "What is that supposed to mean?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "여기서 흡연하시면 안 됩니다.", answer: "You are not supposed to smoke here." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "저는 수술 전에 아무것도 먹으면 안 돼요.", answer: "I am not supposed to eat anything before the surgery." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "이건 원래 쉬워야 하는데.", answer: "This is supposed to be easy." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "이 영화 원래 재미있어야 하거든.", answer: "This movie is supposed to be fun." }
+            ],
+            "42": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 사람들과 대화하는 것을 좋아한다.", answer: "I like talking to people." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 아침에 운동하는 것을 좋아한다.", answer: "I like working out in the morning." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그녀는 쇼핑하는 것을 좋아한다.", answer: "She loves shopping." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "나는 디저트 먹는 것을 좋아한다.", answer: "I love eating dessert." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그는 설거지하는 것을 싫어한다.", answer: "He hates washing the dishes." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "나는 지는 것을 싫어한다.", answer: "I hate losing." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그녀는 사진 찍는 걸 즐긴다.", answer: "She enjoys taking pictures." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "내 가족은 여행하는 것을 즐긴다.", answer: "My family enjoys traveling." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "밤에 일하는 것은 쉽지 않다.", answer: "Working at night is not easy." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "매주 여행하는 것은 비용이 많이 들 수 있다.", answer: "Traveling every weekend can be costly." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "해외에서 사는 것은 어렵다.", answer: "Living abroad is difficult." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "충분한 물을 섭취하는 것은 중요하다.", answer: "Getting enough water is important." }
+            ],
+            "43": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 하와이가 아름답기 때문에 가고 싶다.", answer: "I want to go to Hawaii because it's beautiful." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 새 핸드폰이 너무 비싸서 사지 않았다.", answer: "She didn't buy the new phone because it was too expensive." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 몸이 좋지 않아서 일찍 퇴근했다.", answer: "He left work early because he didn't feel good." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "나는 버스를 놓쳐서 택시를 탔다.", answer: "I took a taxi because I missed the bus." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 요리하는 것을 좋아하기 때문에 보통 집에서 먹는다.", answer: "She usually eats at home because she likes cooking." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 아파서 오지 않았다.", answer: "He didn't come because he was sick." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "나는 그것이 매우 커서 놀랐습니다.", answer: "I was surprised because it was very big." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "오늘 밤은 일이 많아서 못 나가요.", answer: "I can't go out tonight because I have a lot of work to do." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그가 성가시게 해서 제니는 그와 얘기하지 않는다.", answer: "Jenny doesn't talk to him because he is annoying." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 그의 가족 때문에 담배를 끊었다.", answer: "He stopped smoking because of his family." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "나는 교통 체증 때문에 회사에 지각했다.", answer: "I was late to work because of the traffic jam." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "제임스는 취업 면접 때문에 하루 종일 스트레스를 받았다.", answer: "James was stressed out all day because of the job interview." }
+            ],
+            "44": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 일주일에 한 번씩 서울에 가곤 했다.", answer: "I used to go to Seoul once a week." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "내 아내와 나는 버스로 출퇴근했었다.", answer: "My wife and I used to take the bus to work." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "나는 한때 거기에 살았었다.", answer: "I used to live there." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그는 예전에 선생님이었다.", answer: "He used to be a teacher." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "우리는 절친이었다.", answer: "We used to be best friends." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그들은 토요일에 일했었나요?", answer: "Did they use to work on Saturdays?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "당신은 필라테스를 배웠었나요?", answer: "Did you use to learn pilates?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "나는 야채를 먹지 않았었지만 지금은 먹는다.", answer: "I did not use to eat vegetables, but I do now." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그는 예전에 자기 방이 없었다.", answer: "He did not use to have his own room." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "우리는 매년 그곳에 갔었다.", answer: "We used to go there every year." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 매일 아침 운동을 했었다.", answer: "She used to exercise in the morning." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "우리는 몇 시간씩 통화하곤 했다.", answer: "We used to talk on the phone for hours." }
+            ],
+            "45": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 엄마를 도와드리는 게 익숙해요.", answer: "I am used to helping my mom." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그는 큰 결정들을 내리는 게 익숙해요.", answer: "He is used to making big decisions." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 아파트에 사는 것에 익숙해요.", answer: "We are used to living in an apartment." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "저는 혼자 밥 먹는 게 익숙해요.", answer: "I am used to eating alone." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "당신은 일찍 일어나는 것에 익숙한가요?", answer: "Are you used to waking up early?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그는 늦게까지 깨어있는 것에 익숙한가요?", answer: "Is he used to staying up late?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그들은 서울에서 지하철을 타는 것에 익숙한가요?", answer: "Are they used to taking the subway in Seoul?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "당신은 아침에 명상하는 것에 익숙한가요?", answer: "Are you used to meditating in the morning?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리 가족은 도시에서 사는 것에 익숙하지 않아요.", answer: "My family is not used to living in the city." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "제이슨은 큰 차를 운전하는 게 익숙하지 않아요.", answer: "Jason is not used to driving a big car." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그는 이 일에 익숙하지 않아요.", answer: "He is not used to this job." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "저의 부모님은 온라인으로 물건을 사는 것에 익숙하지 않아요.", answer: "My parents are not used to buying things online." }
+            ],
+            "46": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "저는 일찍 자려고 노력해요.", answer: "I try to sleep early." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리는 최선을 다하려고 노력해요.", answer: "We try to do our best." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "나는 이제부터 건강에 좋은 음식을 먹도록 노력할 거야.", answer: "I will try to eat healthy from now on." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그녀는 일주일에 적어도 3번은 운동하려고 해요.", answer: "She tries to work out at least 3 times a week." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "내가 퇴근하고 그녀에게 연락하려고 해볼게.", answer: "I will try to call her back after work." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "좀 쉬려고 해봐.", answer: "Try to get some rest." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "난 그를 설득하려고 노력했어.", answer: "I tried to convince him." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 그의 아이들과 시간을 보내려고 노력해요.", answer: "He tries to spend time with his children." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "너 그에게 연락하려고 했었어?", answer: "Did you try to contact him?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "당신은 그 가게에서 환불받으려고 했나요?", answer: "Did you try to get a refund from the store?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "서두르려 해봐.", answer: "Try to be quick." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "나를 탓하려 하지 마.", answer: "Don't try to blame me." }
+            ],
+            "47": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그것에 대해 생각하지 않으려고 해봐.", answer: "Try not to think about it." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "아침을 거르지 않으려고 해봐.", answer: "Try not to skip breakfast." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "상처를 만지지 않으려고 노력해봐.", answer: "Try not to touch the wound." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "난 널 실망시키지 않으려고 노력했어.", answer: "I tried not to let you down." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "우리는 웃지 않으려고 했다.", answer: "We tried not to laugh." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "내가 영화를 보는 동안 잠들지 않도록 노력해 볼게.", answer: "I will try not to fall asleep during the movie." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "널 방해하지 않으려 노력할게.", answer: "I will try not to disturb you." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그들은 영화를 볼 때 울지 않으려고 노력했다.", answer: "They tried not to cry during the movie." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "나는 같은 실수를 하지 않으려고 노력한다.", answer: "I try not to make the same mistakes." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그는 수술 후에 과로하지 않으려 한다.", answer: "He tries not to overwork after the surgery." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "당신은 요즘 술 마시지 않으려고 노력하시나요?", answer: "Do you try not to drink these days?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "우리는 당신의 시간을 낭비하지 않도록 노력할 것입니다.", answer: "We will try not to waste your time." }
+            ],
+            "48": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 유명해지고 싶다.", answer: "I want to be famous." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 그녀의 가족들과 있는 것을 좋아한다.", answer: "She likes to be with her family." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "너는 조심할 필요가 있다.", answer: "You need to be careful." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그들은 곧 준비가 될 겁니다.", answer: "They are going to be ready soon." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "당신은 인내심이 있어야 해요.", answer: "You have to be patient." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "당신은 부주의하면 안 돼요.", answer: "You should not be careless." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그는 지금 바쁠지도 몰라요.", answer: "He might be busy now." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그녀는 30분 전에 이곳에 와 있어야 했어요.", answer: "She was supposed to be here 30 minutes ago." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 한때 친구였어요.", answer: "We used to be friends." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "저는 책임감을 가지려고 노력합니다.", answer: "I try to be responsible." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그는 너에게 잘해주고 있어.", answer: "He is being nice to you." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "저는 혼자 있는 것에 익숙해요.", answer: "I am used to being alone." }
+            ],
+            "49": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 너무 심심하다.", answer: "I am so bored." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나는 창피하다.", answer: "I am embarrassed." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "이 커피 훌륭하네요.", answer: "This coffee is amazing." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "이 책은 흥미롭다.", answer: "This book is interesting." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그는 충격을 받았다.", answer: "He was shocked." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "탑은 우울하다.", answer: "Tom is depressed." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "그는 성가셨다.", answer: "He was annoying." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그 결과는 실망스러웠다.", answer: "The result was disappointing." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "우리는 실망했다.", answer: "We are disappointed." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "그 뉴스는 놀라웠다.", answer: "The news was surprising." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "그녀는 놀랐었다.", answer: "She was surprised." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "그녀는 한국 여행에 대해 매우 신이 났다.", answer: "She is so excited about her trip to Korea." }
+            ],
+            "50": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "일찍 오세요.", answer: "Come early." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그를 도와줘.", answer: "Help him." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "앉아주세요.", answer: "Please sit down." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "시간 날 때 그녀에게 전화하세요.", answer: "Call her when you have time." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "요리할 때 조심하세요.", answer: "Be careful when you cook." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "수업 중에는 조용히 해 주세요.", answer: "Please be quiet during the class." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "다른 사람들 방해하지 마세요.", answer: "Don't interrupt other people." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "거기 가지 마. 상했을지도 몰라.", answer: "Don't eat that. It might be spoiled." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "밤에 전화하지 마세요.", answer: "Don't call me at night." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "고집부리지 마.", answer: "Don't be stubborn about it." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "면접에 늦지 마세요.", answer: "Don't be late for your interview." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "겁내지 마.", answer: "Don't afraid. / Don't be afraid." }
+            ],
+            "51": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 카페에 있다.", answer: "I am at cafe. / I am at a cafe." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그는 회의실에 있다.", answer: "He is in the meeting room." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "너 사무실에 있어?", answer: "Are you in the office?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "엄마는 부엌에 있다.", answer: "Mom is in the kitchen." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그녀는 거실에서 TV를 보고 있다.", answer: "She is watching TV in the living room." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "당신은 공항에 있습니까?", answer: "Are you at the airport?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "우리는 어젯밤 식당에서 좋은 음식을 먹었다.", answer: "We had a good meal at the restaurant last night." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "길거리에 쓰레기를 버리면 안 돼요.", answer: "You should not litter on the street." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그들은 벽에 거울을 걸어 놓았다.", answer: "They hung the mirror on the wall." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "당신의 차 열쇠는 소파 위에 있습니다.", answer: "Your car key is on the sofa." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "당신 얼굴에 뭐가 묻었어요.", answer: "There is something on your face." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "제 휴대폰이 탁자 위에 있나요?", answer: "Is my cell phone on the table?" }
+            ],
+            "52": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그 영화 7시 30분에 시작해.", answer: "The movie starts at 7:30 p.m." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "나의 하루는 아침 6시에 시작된다.", answer: "My day starts at 6 o'clock in the morning." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "저는 밤에 일해요.", answer: "I work at night." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그는 12월에 태어났아요.", answer: "He was born in December." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "탐은 4월에 한국에 갈 거예요.", answer: "Tom is going to Korea in April." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "제 아내와 저는 2017년에 결혼했어요.", answer: "My wife and I got married in 2017." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "나는 저녁에 내 개들을 산책시킨다.", answer: "I walk my dogs in the evening." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 여름에 청바지를 입지 않는다.", answer: "He doesn't wear jeans in summer." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "너 생일에 뭐 할 거야?", answer: "What are you doing on your birthday?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "당신은 월요일부터 일을 시작할 수 있나요?", answer: "Can you start working on Monday?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "제니는 토요일에 이곳을 떠날 것이다.", answer: "Jenny is leaving here on Saturday." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "브라이언은 기념일에 아내에게 꽃을 주었다.", answer: "Brian gave flowers to his wife on their anniversary." }
+            ],
+            "53": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그녀는 아이들을 위해 디저트를 만든다.", answer: "She makes desserts for her kids." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "내가 너에게 커피 좀 가져다줄게.", answer: "I will bring some coffee for you." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "무엇을 도와드릴까요?", answer: "What can I do for you?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "이것 좀 해줄래?", answer: "Can you do this for me?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그는 건강을 위해 매일 아침 달리기를 합니다.", answer: "He runs every morning for his health." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "우리는 그 집에서 2년 동안 살았다.", answer: "We lived in the house for 2 years." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "저는 한 달 동안 입원했어요.", answer: "I was hospitalized for a month." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그는 몇 주 동안 휴가를 갈 것이다.", answer: "He is going on a vacation for a few weeks." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "나는 아침으로 항상 시리얼을 먹는다.", answer: "I always eat cereal for breakfast." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "이거 공짜에요?", answer: "Is this for free?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "저는 면접에 늦었어요.", answer: "I'm late for the job interview." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "나는 학교 시험공부를 해야 한다.", answer: "I need to study for my school exam." }
+            ],
+            "54": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그들은 여름 동안 매일 수영을 한다.", answer: "They swim every day during the summer." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그 가게는 주말 동안 문을 닫을 것이다.", answer: "The shop will be closed during the weekend." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그는 회의 중에 아무 말도 하지 않았다.", answer: "He didn't say anything during the meeting." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "휴가 동안 좋은 시간 보냈니?", answer: "Did you have a good time during the vacation?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "수업하는 동안 무엇을 배웠니?", answer: "What did you learn during the class?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그녀는 여행하는 동안 아팠다.", answer: "She was sick during the trip." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "아빠는 아침을 드시면서 신문을 읽으신다.", answer: "My dad reads the newspaper while having his breakfast." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그녀는 준비하는 동안 그녀의 사장님으로부터 전화를 받았다.", answer: "She got a call from her boss while she was getting ready." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그는 낮 동안 자고 밤에 일한다.", answer: "He sleeps during the day and works at night." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "당신은 운동하는 동안 음악을 듣습니까?", answer: "Do you listen to music while you are exercising?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "기다리시는 동안 뭐 좀 갖다 드릴까요?", answer: "Can I get you anything while you are waiting?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "통화하면서 운전하는 것은 위험하다.", answer: "Driving while talking on the phone is dangerous." }
+            ],
+            "55": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "멀지 않아.", answer: "It is not far from here." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "벌써 여름이다.", answer: "It is already summer." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "밖에 비와.", answer: "It is raining outside." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "어두워지고 있어.", answer: "It is getting dark." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "어제는 수요일이었어.", answer: "It was Wednesday yesterday." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "아직도 밖이 환해.", answer: "It is still bright outside." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "어제 화요일이었니?", answer: "Was it Tuesday yesterday?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "새벽 다섯 시야.", answer: "It is 5 o'clock in the morning." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "내일은 더울 거예요.", answer: "It is going to be hot tomorrow." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "벌써 10월이야.", answer: "It is already October." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "늦었어.", answer: "It is late." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "여기는 겨울입니다.", answer: "It is winter here." }
+            ],
+            "56": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "15분 후에 내가 널 데리러 갈게.", answer: "I will pick you up in 15 minutes." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "너 이거 이틀 안에 할 수 있어?", answer: "Can you do it in 2 days?" },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리 학교는 3주 후에 시작한다.", answer: "My school starts in 3 weeks." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그 영화는 10분 후에 시작할 것이다.", answer: "The movie is going to start in 10 minutes." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "나 거의 다 왔어. 5분 뒤에 나와.", answer: "I'm almost there. Come out in 5 minutes." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그녀는 집에 와서 5분 만에 잠들었다.", answer: "She came home and fell asleep in 5 minutes." },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "나중에 얘기하자.", answer: "I will talk to you later." },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "그녀는 나중에 그것을 할 것이다.", answer: "She will do it later." },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "저는 한 달 전에 일을 그만뒀어요.", answer: "I quit my job a month ago." },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "나는 며칠 전에 그녀를 봤어.", answer: "I saw her a few days ago." },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "우리는 이틀 전에 새로운 직원을 고용했어요.", answer: "We hired a new employee 2 days ago." },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "원래 한 시간 전에 넌 내게 전화해야 했어.", answer: "You were supposed to call me an hour ago." }
+            ],
+            "57": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "너 무슨 책 읽고 있어?", answer: "What book are you reading?" },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 어떤 아이스크림을 가장 좋아하나요?", answer: "What ice cream does she like the most?" },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "어느 식당이 늦게까지 문을 여나요?", answer: "What restaurants are open late?" },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그들은 어젯밤에 무슨 영화를 봤나요?", answer: "What movie did they watch last night?" },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그가 네 생일 선물로 무슨 신발을 사 줄까?", answer: "What shoes will he buy for your birthday present?" },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그들은 어떤 언어를 말할 수 있나요?", answer: "What languages can they speak?" },
+                { id: 7, source: "실생활 영어 표현 익히기", question: "당신은 어떤 종류의 영화를 좋아합니까?", answer: "What kind of movies do you like?" },
+                { id: 8, source: "실생활 영어 표현 익히기", question: "내가 어떤 종류의 옷을 입어야 할까?", answer: "What kind of clothes should I wear?" },
+                { id: 9, source: "실생활 영어 표현 익히기", question: "그는 어떤 종류의 스포츠를 좋아합니까?", answer: "What kind of sports does he like?" },
+                { id: 10, source: "실생활 영어 표현 익히기", question: "너는 어떤 종류의 샴푸를 사용하니?", answer: "What kind of shampoo do you use?" },
+                { id: 11, source: "실생활 영어 표현 익히기", question: "너는 어떤 종류의 음악을 듣니?", answer: "What kind of music do you listen to?" },
+                { id: 12, source: "실생활 영어 표현 익히기", question: "당신의 개는 어떤 종인가요?", answer: "What kind of dog do you have?" }
+            ]
+        };
+
+        // 초기화 시 체크박스 자동 생성
+        function initCheckboxes() {
+            const checkboxGroup = document.getElementById("checkboxGroup");
+            checkboxGroup.innerHTML = "";
+
+            Object.keys(quizData).forEach(unitKey => {
+                const isChecked = (unitKey === "53" || unitKey === "54") ? "checked" : ""; // 기본으로 Unit 53, 54 체크
+                const label = document.createElement("label");
+                label.className = "checkbox-label";
+                label.innerHTML = `
+                    <input type="checkbox" name="unit" value="${unitKey}" ${isChecked} onchange="renderQuizzes()"> Unit ${unitKey}
+                `;
+                checkboxGroup.appendChild(label);
+            });
+        }
+
+        function renderQuizzes() {
+            const checkedUnits = Array.from(document.querySelectorAll('input[name="unit"]:checked')).map(cb => cb.value);
+            const quizListContainer = document.getElementById("quizList");
+            
+            quizListContainer.innerHTML = "";
+
+            if (checkedUnits.length === 0) {
+                quizListContainer.innerHTML = `<div class="no-selection">학습할 유닛을 하나 이상 선택해주세요!</div>`;
+                return;
+            }
+
+            let globalIndex = 1;
+            checkedUnits.forEach(unitKey => {
+                const quizzes = quizData[unitKey];
+                if (quizzes) {
+                    quizzes.forEach((quiz) => {
+                        const card = document.createElement("div");
+                        card.className = "quiz-card";
+                        card.innerHTML = `
+                            <div class="badge-group">
+                                <span class="badge badge-unit">Unit ${unitKey}</span>
+                                <span class="badge">${quiz.source}</span>
+                            </div>
+                            <div class="question-text">Q${globalIndex++}. ${quiz.question}</div>
+                            <div class="input-group">
+                                <input type="text" id="input-${unitKey}-${quiz.id}" placeholder="여기에 영어 문장을 입력하세요...">
+                                <button onclick="checkAnswer('${unitKey}', ${quiz.id})">정답 확인</button>
+                            </div>
+                            <div id="result-${unitKey}-${quiz.id}" class="result-box"></div>
+                        `;
+                        quizListContainer.appendChild(card);
+                    });
+                }
+            });
+        }
+
+        function checkAnswer(unit, id) {
+            const inputElem = document.getElementById(`input-${unit}-${id}`);
+            const resultElem = document.getElementById(`result-${unit}-${id}`);
+            const userVal = inputElem.value.trim().toLowerCase();
+            
+            const quiz = quizData[unit].find(q => q.id === id);
+            const correctVal = quiz.answer.trim().toLowerCase();
+
+            resultElem.style.display = "block";
+
+            if (userVal === correctVal || userVal === correctVal.replace('.', '')) {
+                resultElem.className = "result-box correct";
+                resultElem.innerHTML = `🎉 정답입니다! <div class="answer-reveal">정답: ${quiz.answer}</div>`;
+            } else {
+                resultElem.className = "result-box incorrect";
+                resultElem.innerHTML = `❌ 아쉽네요. 다시 시도해 보세요! <div class="answer-reveal">정답: ${quiz.answer}</div>`;
+            }
+        }
+
+        window.onload = function() {
+            initCheckboxes();
+            renderQuizzes();
+        };
+    </script>
+</body>
+</html>
