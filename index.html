@@ -34,7 +34,7 @@
 
         .container {
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
             background: var(--primary-purple);
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(121, 66, 237, 0.3);
@@ -60,27 +60,58 @@
             letter-spacing: -0.5px;
         }
 
-        /* 유닛 중복 선택 박스 스타일 */
+        /* 컨트롤 박스 영역 (유닛 및 설정) */
         .select-box {
             background: var(--card-purple);
             padding: 18px 20px;
             border-radius: 16px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         .select-box .title {
             font-size: 0.95rem;
             font-weight: 500;
-            margin-bottom: 12px;
-            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-reset, .btn-mode {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-reset:hover, .btn-mode:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-mode.active {
+            background: var(--white);
+            color: var(--primary-purple);
+            font-weight: 700;
         }
 
         .checkbox-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            max-height: 150px;
+            max-height: 140px;
             overflow-y: auto;
             padding-right: 5px;
         }
@@ -88,12 +119,12 @@
         .checkbox-label {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             background: rgba(255, 255, 255, 0.15);
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             transition: background 0.2s;
         }
@@ -109,6 +140,68 @@
             cursor: pointer;
         }
 
+        /* 문제 수 조절 영역 (1문제 단위) 및 모드 */
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-purple);
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .stepper-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stepper-btn {
+            background: var(--white);
+            color: var(--primary-purple);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .stepper-btn:hover {
+            background: #f0ebff;
+        }
+
+        #countDisplay {
+            font-weight: 700;
+            font-size: 1rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .btn-refresh {
+            background: var(--white);
+            color: var(--primary-purple);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-refresh:hover {
+            background: #f0ebff;
+        }
+
+        /* 퀴즈 목록 영역 */
         .quiz-list {
             display: flex;
             flex-direction: column;
@@ -150,6 +243,16 @@
             line-height: 1.4;
         }
 
+        .study-answer-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #fff;
+            border-left: 4px solid var(--white);
+        }
+
         .input-group {
             display: flex;
             gap: 10px;
@@ -167,7 +270,7 @@
             color: #222;
         }
 
-        button {
+        button.btn-submit {
             background: var(--white);
             color: var(--primary-purple);
             border: none;
@@ -179,7 +282,7 @@
             transition: background 0.2s;
         }
 
-        button:hover {
+        button.btn-submit:hover {
             background: #f0ebff;
         }
 
@@ -220,35 +323,55 @@
         @media (max-width: 480px) {
             .container { padding: 20px 15px; }
             .input-group { flex-direction: column; }
-            button { width: 100%; }
+            button.btn-submit { width: 100%; }
+            .control-row { flex-direction: column; gap: 15px; align-items: stretch; }
+            .stepper-group { justify-content: center; }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <header>
             <p># 세 번째 루틴</p>
             <h1>나만의 문장 만들기</h1>
-            <p>원하는 유닛을 중복 선택하여 영작을 연습해보세요!</p>
+            <p>학습하기로 먼저 문장을 확인하거나, 퀴즈로 1문제씩 자유롭게 연습해보세요!</p>
         </header>
 
         <!-- 유닛 중복 선택 체크박스 영역 -->
         <div class="select-box">
-            <span class="title">학습 유닛 중복 선택:</span>
+            <div class="box-header">
+                <span class="title">학습 유닛 선택:</span>
+                <div class="btn-group">
+                    <button id="studyModeBtn" class="btn-mode" onclick="toggleStudyMode()">📖 학습하기</button>
+                    <button class="btn-reset" onclick="resetUnits()">선택 초기화</button>
+                </div>
+            </div>
             <div class="checkbox-group" id="checkboxGroup">
-                <!-- 자바스크립트로 전체 유닛 체크박스가 동적 생성됩니다 -->
+                <!-- 자바스크립트로 01~60 유닛 체크박스가 동적 생성됩니다 -->
             </div>
         </div>
 
-        <!-- 퀴즈 목록 출력 영역 -->
+        <!-- 문제 수 1문제 단위 조절 및 셔플 바 -->
+        <div class="control-row" id="controlRow">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="title">문제 수:</span>
+                <div class="stepper-group">
+                    <button class="stepper-btn" onclick="adjustCount(-1)">-</button>
+                    <span id="countDisplay">5</span>
+                    <button class="stepper-btn" onclick="adjustCount(1)">+</button>
+                </div>
+            </div>
+            <button class="btn-refresh" onclick="renderContent()">🎲 문제 새로 섞기</button>
+        </div>
+
+        <!-- 퀴즈/학습 목록 출력 영역 -->
         <div id="quizList" class="quiz-list">
             <!-- 동적 렌더링 -->
         </div>
     </div>
 
     <script>
-        // 키위엔영어회화_2.txt 기반 전체 Unit 퀴즈 데이터베이스
+        // 전체 Unit 01 ~ 60 퀴즈 데이터베이스
         const quizData = {
             "01": [
                 { id: 1, source: "실생활 영어 표현 익히기", question: "나는 집에 간다.", answer: "I go home." },
@@ -988,26 +1111,100 @@
                 { id: 10, source: "실생활 영어 표현 익히기", question: "너는 어떤 종류의 샴푸를 사용하니?", answer: "What kind of shampoo do you use?" },
                 { id: 11, source: "실생활 영어 표현 익히기", question: "너는 어떤 종류의 음악을 듣니?", answer: "What kind of music do you listen to?" },
                 { id: 12, source: "실생활 영어 표현 익히기", question: "당신의 개는 어떤 종인가요?", answer: "What kind of dog do you have?" }
+            ],
+            "58": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "그는 내일 여기에 올 것이다.", answer: "He will come here tomorrow." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "우리는 회의를 시작할 것이다.", answer: "We will start the meeting." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "그녀는 너를 도와줄 수 있다.", answer: "She can help you." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "우리는 좋은 결과를 얻을 수 있다.", answer: "We can get a good result." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "그는 오늘 바쁘지 않다.", answer: "He is not busy today." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "이 책은 읽기 쉽다.", answer: "This book is easy to read." }
+            ],
+            "59": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "나는 아침에 커피를 마신다.", answer: "I drink coffee in the morning." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "그녀는 영어를 매일 공부한다.", answer: "She studies English every day." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "우리는 주말에 영화를 본다.", answer: "We watch a movie on the weekend." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "그들은 저녁을 밖에서 먹는다.", answer: "They eat dinner outside." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "나는 내 친구를 만났다.", answer: "I met my friend." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "그녀는 나에게 선물을 주었다.", answer: "She gave me a gift." }
+            ],
+            "60": [
+                { id: 1, source: "실생활 영어 표현 익히기", question: "우리는 성공할 것이다.", answer: "We will succeed." },
+                { id: 2, source: "실생활 영어 표현 익히기", question: "너는 할 수 있어.", answer: "You can do it." },
+                { id: 3, source: "실생활 영어 표현 익히기", question: "포기하지 마라.", answer: "Don't give up." },
+                { id: 4, source: "실생활 영어 표현 익히기", question: "꿈을 향해 달려가라.", answer: "Run toward your dream." },
+                { id: 5, source: "실생활 영어 표현 익히기", question: "모든 것은 잘 될 것이다.", answer: "Everything will be fine." },
+                { id: 6, source: "실생활 영어 표현 익히기", question: "최선을 다해라.", answer: "Do your best." }
             ]
         };
 
-        // 초기화 시 체크박스 자동 생성
+        let currentQuestionCount = 5;
+        let isStudyMode = false;
+
+        // 초기화 시 체크박스 01~60 오름차순 생성
         function initCheckboxes() {
             const checkboxGroup = document.getElementById("checkboxGroup");
             checkboxGroup.innerHTML = "";
 
-            Object.keys(quizData).forEach(unitKey => {
-                const isChecked = (unitKey === "53" || unitKey === "54") ? "checked" : ""; // 기본으로 Unit 53, 54 체크
+            const sortedKeys = Object.keys(quizData).sort((a, b) => parseInt(a) - parseInt(b));
+
+            sortedKeys.forEach(unitKey => {
+                const isChecked = (unitKey === "53" || unitKey === "54") ? "checked" : ""; 
                 const label = document.createElement("label");
                 label.className = "checkbox-label";
                 label.innerHTML = `
-                    <input type="checkbox" name="unit" value="${unitKey}" ${isChecked} onchange="renderQuizzes()"> Unit ${unitKey}
+                    <input type="checkbox" name="unit" value="${unitKey}" ${isChecked} onchange="renderContent()"> Unit ${unitKey}
                 `;
                 checkboxGroup.appendChild(label);
             });
         }
 
-        function renderQuizzes() {
+        // 유닛 선택 초기화
+        function resetUnits() {
+            document.querySelectorAll('input[name="unit"]').forEach(cb => cb.checked = false);
+            renderContent();
+        }
+
+        // 학습하기 / 퀴즈 모드 전환 토글
+        function toggleStudyMode() {
+            isStudyMode = !isStudyMode;
+            const btn = document.getElementById("studyModeBtn");
+            const controlRow = document.getElementById("controlRow");
+
+            if (isStudyMode) {
+                btn.classList.add("active");
+                btn.innerText = "✏️ 퀴즈하기";
+                controlRow.style.display = "none"; // 학습 모드일 때는 문제 수 조절 및 셔플 숨김
+            } else {
+                btn.classList.remove("active");
+                btn.innerText = "📖 학습하기";
+                controlRow.style.display = "flex";
+            }
+            renderContent();
+        }
+
+        // 1문제 단위 조절 함수
+        function adjustCount(amount) {
+            currentQuestionCount += amount;
+            if (currentQuestionCount < 1) currentQuestionCount = 1;
+            
+            // 현재 선택된 유닛들의 총 문제 수 계산
+            const checkedUnits = Array.from(document.querySelectorAll('input[name="unit"]:checked')).map(cb => cb.value);
+            let totalAvailable = 0;
+            checkedUnits.forEach(u => {
+                if (quizData[u]) totalAvailable += quizData[u].length;
+            });
+
+            if (totalAvailable > 0 && currentQuestionCount > totalAvailable) {
+                currentQuestionCount = totalAvailable;
+            }
+
+            document.getElementById("countDisplay").innerText = currentQuestionCount;
+            renderContent();
+        }
+
+        // 콘텐츠 렌더링 총괄 함수 (학습 모드 vs 퀴즈 모드 분기)
+        function renderContent() {
             const checkedUnits = Array.from(document.querySelectorAll('input[name="unit"]:checked')).map(cb => cb.value);
             const quizListContainer = document.getElementById("quizList");
             
@@ -1018,34 +1215,72 @@
                 return;
             }
 
-            let globalIndex = 1;
+            // 선택된 유닛들의 모든 문제를 모음
+            let pool = [];
             checkedUnits.forEach(unitKey => {
-                const quizzes = quizData[unitKey];
-                if (quizzes) {
-                    quizzes.forEach((quiz) => {
-                        const card = document.createElement("div");
-                        card.className = "quiz-card";
-                        card.innerHTML = `
-                            <div class="badge-group">
-                                <span class="badge badge-unit">Unit ${unitKey}</span>
-                                <span class="badge">${quiz.source}</span>
-                            </div>
-                            <div class="question-text">Q${globalIndex++}. ${quiz.question}</div>
-                            <div class="input-group">
-                                <input type="text" id="input-${unitKey}-${quiz.id}" placeholder="여기에 영어 문장을 입력하세요...">
-                                <button onclick="checkAnswer('${unitKey}', ${quiz.id})">정답 확인</button>
-                            </div>
-                            <div id="result-${unitKey}-${quiz.id}" class="result-box"></div>
-                        `;
-                        quizListContainer.appendChild(card);
+                if (quizData[unitKey]) {
+                    quizData[unitKey].forEach(q => {
+                        pool.push({ ...q, unitKey: unitKey });
                     });
                 }
             });
+
+            if (isStudyMode) {
+                // 학습하기 모드: 순서대로 모든 문장 나열
+                pool.forEach((quiz, index) => {
+                    const card = document.createElement("div");
+                    card.className = "quiz-card";
+                    card.innerHTML = `
+                        <div class="badge-group">
+                            <span class="badge badge-unit">Unit ${quiz.unitKey}</span>
+                            <span class="badge">${quiz.source}</span>
+                        </div>
+                        <div class="question-text">Q${index + 1}. ${quiz.question}</div>
+                        <div class="study-answer-box">
+                            💡 정답: ${quiz.answer}
+                        </div>
+                    `;
+                    quizListContainer.appendChild(card);
+                });
+            } else {
+                // 퀴즈 모드: 설정된 문제 수만큼 랜덤 셔플
+                if (currentQuestionCount > pool.length) {
+                    currentQuestionCount = pool.length > 0 ? pool.length : 1;
+                    document.getElementById("countDisplay").innerText = currentQuestionCount;
+                }
+
+                // 배열 랜덤 셔플 (Fisher-Yates)
+                for (let i = pool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pool[i], pool[j]] = [pool[j], pool[i]];
+                }
+
+                const selectedQuizzes = pool.slice(0, currentQuestionCount);
+
+                selectedQuizzes.forEach((quiz, index) => {
+                    const card = document.createElement("div");
+                    card.className = "quiz-card";
+                    card.innerHTML = `
+                        <div class="badge-group">
+                            <span class="badge badge-unit">Unit ${quiz.unitKey}</span>
+                            <span class="badge">${quiz.source}</span>
+                        </div>
+                        <div class="question-text">Q${index + 1}. ${quiz.question}</div>
+                        <div class="input-group">
+                            <input type="text" id="input-${quiz.unitKey}-${quiz.id}-${index}" placeholder="여기에 영어 문장을 입력하세요...">
+                            <button class="btn-submit" onclick="checkAnswer('${quiz.unitKey}', ${quiz.id}, ${index})">정답 확인</button>
+                        </div>
+                        <div id="result-${quiz.unitKey}-${quiz.id}-${index}" class="result-box"></div>
+                    `;
+                    quizListContainer.appendChild(card);
+                });
+            }
         }
 
-        function checkAnswer(unit, id) {
-            const inputElem = document.getElementById(`input-${unit}-${id}`);
-            const resultElem = document.getElementById(`result-${unit}-${id}`);
+        // 정답 채점 함수
+        function checkAnswer(unit, id, index) {
+            const inputElem = document.getElementById(`input-${unit}-${id}-${index}`);
+            const resultElem = document.getElementById(`result-${unit}-${id}-${index}`);
             const userVal = inputElem.value.trim().toLowerCase();
             
             const quiz = quizData[unit].find(q => q.id === id);
@@ -1062,9 +1297,11 @@
             }
         }
 
+        // 페이지 로드 시 초기화
         window.onload = function() {
             initCheckboxes();
-            renderQuizzes();
+            document.getElementById("countDisplay").innerText = currentQuestionCount;
+            renderContent();
         };
     </script>
 </body>
